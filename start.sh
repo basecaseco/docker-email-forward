@@ -8,7 +8,8 @@ if [ -z "$DOMAINS" ]; then
     echo 'DOMAINS environment variable missing'
     exit 1
 fi
-sed -i -e "s/^virtual_alias_domains.*$/virtual_alias_domains = $DOMAINS/" $MAINCF
+postconf virtual_alias_domains=$DOMAINS
+postconf myhostname=`hostname`
 
 if [ ! -z "$EMAILS" ]; then
     : > $VIRTUAL
@@ -17,6 +18,7 @@ if [ ! -z "$EMAILS" ]; then
     for LINE in ${LINES[@]}; do
         echo "$LINE" >> $VIRTUAL
     done
+    postmap $VIRTUAL
 fi
 
 echo 'starting postfix...'

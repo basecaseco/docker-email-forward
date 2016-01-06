@@ -6,8 +6,12 @@ RUN \
     DEBIAN_FRONTEND=noninteractive apt-get install -y postfix && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    echo 'virtual_alias_domains = <%= domains %>' >> /etc/postfix/main.cf && \
-    echo 'virtual_alias_maps = hash:/etc/postfix/virtual' >> /etc/postfix/main.cf
+    ln -sf /etc/services /var/spool/postfix/etc/services && \
+    postconf myhostname={{.Hostname}} && \
+    postconf -X mydestination && \
+    postconf virtual_alias_domains={{.Domains}} && \
+    postconf virtual_alias_maps=hash:/etc/postfix/virtual && \
+    postconf -F smtp/unix/chroot=n
 EXPOSE 25
 ENTRYPOINT ["/bin/bash", "/opt/start.sh"]
 
