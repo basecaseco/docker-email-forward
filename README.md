@@ -1,0 +1,3 @@
+# docker-postfix
+
+Containerized postfix
