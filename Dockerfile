@@ -1,5 +1,5 @@
 FROM debian
-MAINTAINER Ye Liu <yeliu@basecase.co>
+MAINTAINER Ye Liu <ye@basecase.co>
 COPY start.sh /opt/start.sh
 RUN \
     apt-get update -y && \
